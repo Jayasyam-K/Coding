@@ -1,0 +1,27 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        int nums[]={10,2,6,8,14};
+        int temp = 0;
+        System.out.println("Before Sorting");
+        for(int i=0;i<nums.length;i++){
+            System.out.print(nums[i]+" ");
+        }
+        //Logic for BubbleSort
+        for(int i=0;i<nums.length;i++){
+            for(int j=0;j<nums.length-i-1;j++){
+                if(nums[j]>nums[j+1]){
+                    temp = nums[j];
+                    nums[j]=nums[j+1];
+                    nums[j+1]=temp;
+                }
+            }
+        }
+
+        System.out.println();
+        System.out.println("After Sorting");
+        for(int i=0;i<nums.length;i++){
+            System.out.print(nums[i]+" ");
+        }
+    }
+}
