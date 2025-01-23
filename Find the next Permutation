@@ -1,0 +1,40 @@
+class Solution {
+    void nextPermutation(int[] arr) {
+        // code here
+    int n = arr.length,pivot = -1;
+    
+    //find pivot
+    for(int i=n-2;i>=0;i--){
+        if(arr[i] < arr[i+1]){
+            pivot = i;
+            break;
+        }
+    }
+    //if no pivot value is found we reverse the array and return it
+    if(pivot == -1){
+        reverse(arr,0,n-1);
+        return;
+    }
+    
+    //if pivot is found , now we find the value which is greater than pivot in the rightmost of the array
+    for(int i = n-1;i > pivot;i--){
+        if(arr[i] > arr[pivot]){
+            swap(arr,i,pivot);
+            break;
+        }
+    }
+    //Reverse the elements from pivot+1 till the end of the array
+    reverse(arr,pivot+1,n-1);
+    }
+    //Helper functions
+    void swap(int[]arr,int x,int y){
+        int temp = arr[x];
+        arr[x] = arr[y];
+        arr[y] = temp;
+    }
+    void reverse(int []arr,int start,int end){
+        while(start < end){
+            swap(arr,start++,end--);
+    }
+}
+}
