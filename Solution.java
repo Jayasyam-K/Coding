@@ -1,38 +1,32 @@
 class Solution {
-    public String generateString(String str1, String str2) {
-        int n = str1.length(), m = str2.length();
-        char[] s = new char[n + m - 1];
-        boolean[] fixed = new boolean[n + m - 1];
-        for (int i = 0; i < s.length; i++) s[i] = 'a';
-        for (int i = 0; i < n; i++) {
-            if (str1.charAt(i) == 'T') {
-                for (int j = 0; j < m; j++) {
-                    int pos = i + j;
-                    if (fixed[pos] && s[pos] != str2.charAt(j)) return "";
-                    s[pos] = str2.charAt(j);
-                    fixed[pos] = true;
+    public int robotSim(int[] commands, int[][] obstacles) {
+        Set<String> st = new HashSet<>();
+        
+        for (int[] obs : obstacles) {
+            st.add(obs[0] + "," + obs[1]);
+        }
+
+        int[][] dir = {{0,1}, {1,0}, {0,-1}, {-1,0}};
+
+        int x = 0, y = 0, d = 0, maxDist = 0;
+
+        for (int cmd : commands) {
+            if (cmd == -1) d = (d + 1) % 4;
+            else if (cmd == -2) d = (d + 3) % 4;
+            else {
+                for (int i = 0; i < cmd; i++) {
+                    int nx = x + dir[d][0];
+                    int ny = y + dir[d][1];
+
+                    if (st.contains(nx + "," + ny)) break;
+
+                    x = nx;
+                    y = ny;
+                    maxDist = Math.max(maxDist, x*x + y*y);
                 }
             }
         }
-        for (int i = 0; i < n; i++) {
-            if (str1.charAt(i) == 'F') {
-                boolean diff = false;
-                for (int j = 0; j < m; j++) {
-                    if (s[i + j] != str2.charAt(j)) {
-                        diff = true; break;
-                    }
-                }
-                if (diff) continue;
-                boolean changed = false;
-                for (int j = m - 1; j >= 0; j--) {
-                    int pos = i + j;
-                    if (!fixed[pos]) {
-                        s[pos] = 'b'; changed = true; break;
-                    }
-                }
-                if (!changed) return "";
-            }
-        }
-        return new String(s);
+
+        return maxDist;
     }
 }
